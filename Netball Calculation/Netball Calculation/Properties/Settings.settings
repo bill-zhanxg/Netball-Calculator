@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Netball_Calculation.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="homeSchoolName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">School1</Value>
+    </Setting>
+    <Setting Name="visitorSchoolName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">School2</Value>
+    </Setting>
+    <Setting Name="gender" Type="System.String" Scope="User">
+      <Value Profile="(Default)">boys</Value>
+    </Setting>
+    <Setting Name="yearLevel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">y78</Value>
+    </Setting>
+    <Setting Name="homeGS" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Player1</Value>
+    </Setting>
+    <Setting Name="homeGA" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Player2</Value>
+    </Setting>
+    <Setting Name="visitorGS" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Player3</Value>
+    </Setting>
+    <Setting Name="visitorGA" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Player4</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

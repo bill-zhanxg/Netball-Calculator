@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netball Calculation", "Netball Calculation\Netball Calculation.csproj", "{DAAD60CB-BCC4-4856-8C55-1EF45FE67C81}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAAD60CB-BCC4-4856-8C55-1EF45FE67C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAAD60CB-BCC4-4856-8C55-1EF45FE67C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAAD60CB-BCC4-4856-8C55-1EF45FE67C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAAD60CB-BCC4-4856-8C55-1EF45FE67C81}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B96EE8CA-7FE2-4C2D-90F6-5416F1A4C90D}
+	EndGlobalSection
+EndGlobal
