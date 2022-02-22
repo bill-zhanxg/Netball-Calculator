@@ -1,13 +1,13 @@
 ﻿using Netball_Calculation.Properties;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -219,6 +219,11 @@ namespace Netball_Calculation
         private void saveAsFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveToFile();
+        }
+
+        private void saveAsPNGautofillToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveAsPNG();
         }
 
         private void summaryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -669,22 +674,307 @@ namespace Netball_Calculation
                 summaryTitleText += $" ({homeData.visitorSchool})";
             }
             summaryTitleLabel.Text = summaryTitleText;
-            string lableText = $"Gender: \"{homeData.genderText}\"\nYear Level: \"{homeData.yearLevelText}\"\n\n";
+            string labelText = $"Gender: \"{homeData.genderText}\"\nYear Level: \"{homeData.yearLevelText}\"\n\n";
+
+            List<playerData> playerDataList = new List<playerData>();
+
             foreach (mainData data in RoundList)
             {
+                playerData[] allPlayers = new playerData[] { new playerData() { playerName = data.homeGS, playerScore = data.homeGSScore }, new playerData() { playerName = data.homeGA, playerScore = data.homeGAScore }, new playerData() { playerName = data.visiGS, playerScore = data.visiGSScore }, new playerData() { playerName = data.visiGA, playerScore = data.visiGAScore } };
+                foreach (playerData player in allPlayers)
+                {
+                    if (playerDataList.Any(x => x.playerName == player.playerName))
+                    {
+                        int index = playerDataList.FindIndex(x => x.playerName == player.playerName);
+                        playerDataList[index].playerScore += player.playerScore;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrWhiteSpace(player.playerName))
+                        {
+                            playerDataList.Add(new playerData()
+                            {
+                                playerName = player.playerName,
+                                playerScore = player.playerScore,
+                            });
+                        }
+                    }
+                }
+
                 homeTotalScore += data.homeGSScore + data.homeGAScore;
                 visitorTotalScore += data.visiGSScore + data.visiGAScore;
-                lableText += $"Round {data.roundNum}:\nHome GS Name: " + (string.IsNullOrWhiteSpace(data.homeGS) ? "\"NoNameSpecified\"" : $"\"{data.homeGS}\"") + "    Home GA Name: " + (string.IsNullOrWhiteSpace(data.homeGA) ? "\"NoNameSpecified\"" : $"\"{data.homeGA}\"") + "\nVisitors GS Name: " + (string.IsNullOrWhiteSpace(data.visiGS) ? "\"NoNameSpecified\"" : $"\"{data.visiGS}\"") + "    Visitors GA Name: " + (string.IsNullOrWhiteSpace(data.visiGA) ? "\"NoNameSpecified\"\n" : $"\"{data.visiGA}\"\n");
-                lableText += $"Home GS Scored: *{data.homeGSScore}*    Home GA Scored: *{data.homeGAScore}*    Home Total Scored (Round): *{data.homeGSScore + data.homeGAScore}*\nVisitors GS Scored: *{data.visiGSScore}*    Visitors GA Scored: *{data.visiGAScore}*    Visitors Total Scored (Round): *{data.visiGSScore + data.visiGAScore}*\n\n";
+                labelText += $"Round {data.roundNum}:\nHome GS Name: " + (string.IsNullOrWhiteSpace(data.homeGS) ? "\"NoNameSpecified\"" : $"\"{data.homeGS}\"") + "    Home GA Name: " + (string.IsNullOrWhiteSpace(data.homeGA) ? "\"NoNameSpecified\"" : $"\"{data.homeGA}\"") + "\nVisitors GS Name: " + (string.IsNullOrWhiteSpace(data.visiGS) ? "\"NoNameSpecified\"" : $"\"{data.visiGS}\"") + "    Visitors GA Name: " + (string.IsNullOrWhiteSpace(data.visiGA) ? "\"NoNameSpecified\"\n" : $"\"{data.visiGA}\"\n");
+                labelText += $"Home GS Scored: *{data.homeGSScore}*    Home GA Scored: *{data.homeGAScore}*    Home Total Scored (Round): *{data.homeGSScore + data.homeGAScore}*\nVisitors GS Scored: *{data.visiGSScore}*    Visitors GA Scored: *{data.visiGAScore}*    Visitors Total Scored (Round): *{data.visiGSScore + data.visiGAScore}*\n\n";
             }
-            lableText += $"Home School Total Score: *{homeTotalScore}*\nVisitor School Total Score: *{visitorTotalScore}*\n\n";
-            summaryLabel.Text = lableText;
+            labelText += $"Home School Total Score: *{homeTotalScore}*\nVisitor School Total Score: *{visitorTotalScore}*\n\n";
+
+            if (playerDataList.Count > 0)
+            {
+                labelText += "LeaderBoard:\n";
+            }
+
+            var sortedPlayerDataList = playerDataList.OrderByDescending(x => x.playerScore);
+            int count = 1;
+            foreach (playerData player in sortedPlayerDataList)
+            {
+                labelText += $"{count}. {player.playerName} - {player.playerScore}\n";
+                count++;
+            }
+            labelText += "\n";
+
+            summaryLabel.Text = labelText;
 
             summaryChart.Series["Schools"].Points.Clear();
             summaryChart.Series["Schools"].Points.AddXY($"Home ({homeData.homeSchool})", homeTotalScore);
             summaryChart.Series["Schools"].Points.AddXY($"Visitors ({homeData.visitorSchool})", visitorTotalScore);
 
             summaryPanel.BringToFront();
+        }
+
+        private void saveAsPNG()
+        {
+            Image sheet = (Image)Resources.ResourceManager.GetObject("sheet");
+            Graphics graphics = Graphics.FromImage(sheet);
+
+            int homeTotalScore = 0;
+            int visitorTotalScore = 0;
+
+            void DrawString(string text, int x, int y, int size = 30)
+            {
+                graphics.DrawString(text, new Font("Arial", size), Brushes.Black, x, y);
+            }
+
+            void DrawCircle(int x, int y, int width = 400, int height = 60)
+            {
+                graphics.DrawEllipse(new Pen(Color.Black), x, y, width, height);
+            }
+            Bitmap ResizeImage(Image image, int width, int height)
+            {
+                var destRect = new Rectangle(0, 0, width, height);
+                var destImage = new Bitmap(width, height);
+
+                destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+                using (var graphic = Graphics.FromImage(destImage))
+                {
+                    graphic.CompositingMode = CompositingMode.SourceCopy;
+                    graphic.CompositingQuality = CompositingQuality.HighQuality;
+                    graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    graphic.SmoothingMode = SmoothingMode.HighQuality;
+                    graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                    using (var wrapMode = new ImageAttributes())
+                    {
+                        wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                        graphic.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                    }
+                }
+
+                return destImage;
+            }
+
+            homeData h = getHomeData();
+            DrawString(h.homeSchool, 700, 1373);
+            DrawString(h.visitorSchool, 700, 1480);
+
+            switch (h.gender)
+            {
+                case "boys":
+                    DrawCircle(970, 930, 200, 100);
+                    break;
+                case "girls":
+                    DrawCircle(1240, 930, 200, 100);
+                    break;
+                case "mixed":
+                    DrawCircle(1540, 930, 200, 100);
+                    break;
+            }
+            switch (h.yearLevel)
+            {
+                case "y34":
+                    DrawCircle(1000, 1065);
+                    break;
+                case "y56":
+                    DrawCircle(1560, 1065);
+                    break;
+                case "y78":
+                    DrawCircle(440, 1120);
+                    break;
+                case "y910":
+                    DrawCircle(1000, 1120, 510);
+                    break;
+                case "y1112":
+                    DrawCircle(1560, 1120, 470);
+                    break;
+            }
+
+            if (RoundList.Count > 0)
+            {
+                mainData round1 = RoundList[0];
+                if (round1.homeGS != null)
+                {
+                    DrawString(round1.homeGS, 500, 1665);
+                }
+                if (round1.homeGA != null)
+                {
+                    DrawString(round1.homeGA, 500, 1740);
+                }
+
+                if (round1.visiGS != null)
+                {
+                    DrawString(round1.visiGS, 1130, 1665);
+                }
+                if (round1.visiGA != null)
+                {
+                    DrawString(round1.visiGA, 1130, 1740);
+                }
+
+                DrawString(round1.homeGSScore.ToString(), 380, 1660);
+                DrawString(round1.homeGAScore.ToString(), 380, 1735);
+                DrawString((round1.homeGSScore + round1.homeGAScore).ToString(), 905, 1700);
+
+                DrawString(round1.visiGSScore.ToString(), 1050, 1660);
+                DrawString(round1.visiGAScore.ToString(), 1050, 1735);
+                DrawString((round1.visiGSScore + round1.visiGAScore).ToString(), 1355, 1700);
+            }
+            if (RoundList.Count > 1)
+            {
+                mainData round2 = RoundList[1];
+                if (round2.homeGS != null)
+                {
+                    DrawString(round2.homeGS, 500, 1815);
+                }
+                if (round2.homeGA != null)
+                {
+                    DrawString(round2.homeGA, 500, 1890);
+                }
+
+                if (round2.visiGS != null)
+                {
+                    DrawString(round2.visiGS, 1130, 1815);
+                }
+                if (round2.visiGA != null)
+                {
+                    DrawString(round2.visiGA, 1130, 1890);
+                }
+
+                DrawString(round2.homeGSScore.ToString(), 380, 1810);
+                DrawString(round2.homeGAScore.ToString(), 380, 1885);
+                DrawString((round2.homeGSScore + round2.homeGAScore).ToString(), 905, 1850);
+
+                DrawString(round2.visiGSScore.ToString(), 1050, 1810);
+                DrawString(round2.visiGAScore.ToString(), 1050, 1885);
+                DrawString((round2.visiGSScore + round2.visiGAScore).ToString(), 1355, 1850);
+            }
+            if (RoundList.Count > 2)
+            {
+                mainData round3 = RoundList[2];
+                if (round3.homeGS != null)
+                {
+                    DrawString(round3.homeGS, 500, 1965);
+                }
+                if (round3.homeGA != null)
+                {
+                    DrawString(round3.homeGA, 500, 2040);
+                }
+
+                if (round3.visiGS != null)
+                {
+                    DrawString(round3.visiGS, 1130, 1965);
+                }
+                if (round3.visiGA != null)
+                {
+                    DrawString(round3.visiGA, 1130, 2040);
+                }
+
+                DrawString(round3.homeGSScore.ToString(), 380, 1960);
+                DrawString(round3.homeGAScore.ToString(), 380, 2035);
+                DrawString((round3.homeGSScore + round3.homeGAScore).ToString(), 905, 2000);
+
+                DrawString(round3.visiGSScore.ToString(), 1050, 1960);
+                DrawString(round3.visiGAScore.ToString(), 1050, 2035);
+                DrawString((round3.visiGSScore + round3.visiGAScore).ToString(), 1355, 2000);
+            }
+            if (RoundList.Count > 3)
+            {
+                mainData round4 = RoundList[3];
+                if (round4.homeGS != null)
+                {
+                    DrawString(round4.homeGS, 500, 2115);
+                }
+                if (round4.homeGA != null)
+                {
+                    DrawString(round4.homeGA, 500, 2190);
+                }
+
+                if (round4.visiGS != null)
+                {
+                    DrawString(round4.visiGS, 1130, 2115);
+                }
+                if (round4.visiGA != null)
+                {
+                    DrawString(round4.visiGA, 1130, 2190);
+                }
+
+                DrawString(round4.homeGSScore.ToString(), 380, 2110);
+                DrawString(round4.homeGAScore.ToString(), 380, 2185);
+                DrawString((round4.homeGSScore + round4.homeGAScore).ToString(), 905, 2150);
+
+                DrawString(round4.visiGSScore.ToString(), 1050, 2110);
+                DrawString(round4.visiGAScore.ToString(), 1050, 2185);
+                DrawString((round4.visiGSScore + round4.visiGAScore).ToString(), 1355, 2150);
+            }
+
+            foreach (mainData x in RoundList)
+            {
+                homeTotalScore += x.homeGAScore;
+                homeTotalScore += x.homeGSScore;
+                visitorTotalScore += x.visiGSScore;
+                visitorTotalScore += x.visiGAScore;
+            }
+
+            DrawString(homeTotalScore.ToString(), 500, 2425, 25);
+            DrawString(visitorTotalScore.ToString(), 870, 2425, 25);
+
+            if (homeTotalScore > visitorTotalScore)
+            {
+                DrawString("Home School" + (string.IsNullOrWhiteSpace(h.homeSchool) ? "" : $" ({h.homeSchool})"), 710, 2500, 20);
+            }
+            else if (visitorTotalScore > homeTotalScore)
+            {
+                DrawString("Visitor School" + (string.IsNullOrWhiteSpace(h.visitorSchool) ? "" : $" ({h.visitorSchool})"), 710, 2500, 20);
+            }
+            else
+            {
+                DrawString("Tie", 710, 2500, 20);
+            }
+
+            homeData homeData = getHomeData();
+            summaryChart.Series["Schools"].Points.Clear();
+            summaryChart.Series["Schools"].Points.AddXY($"Home ({homeData.homeSchool})", homeTotalScore);
+            summaryChart.Series["Schools"].Points.AddXY($"Visitors ({homeData.visitorSchool})", visitorTotalScore);
+
+            chartTypeComboBox.SelectedIndex = 1;
+            Bitmap ChartImage;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                summaryChart.SaveImage(ms, ChartImageFormat.Png);
+                ChartImage = new Bitmap(ms);
+            }
+            ChartImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            ChartImage = ResizeImage(ChartImage, 800, 1600);
+            graphics.DrawImage(ChartImage, 1520, 1200);
+
+            SaveFileDialog f = new SaveFileDialog();
+            f.Title = "Save Auto-filled Data";
+            f.FileName = $"Netball Game {DateTime.Now.ToString().Replace("/", "-").Replace(":", "_")}";
+            f.DefaultExt = "png";
+            f.Filter = "PNG files (*.png)|*.png";
+            if (f.ShowDialog() == DialogResult.OK)
+            {
+                sheet.Save(f.FileName, ImageFormat.Png);
+                Process.Start(f.FileName);
+            }
         }
     }
 
@@ -709,5 +999,11 @@ namespace Netball_Calculation
         public string visitorSchool { get; set; }
         public string genderText { get; set; }
         public string yearLevelText { get; set; }
+    }
+
+    public class playerData
+    {
+        public string playerName { get; set; }
+        public int playerScore { get; set; }
     }
 }

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title11 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,6 +148,7 @@
             this.preferencesY34 = new System.Windows.Forms.RadioButton();
             this.preferencesY78 = new System.Windows.Forms.RadioButton();
             this.preferencesY56 = new System.Windows.Forms.RadioButton();
+            this.saveAsPNGautofillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.homePanel.SuspendLayout();
             this.yearLevelPanel.SuspendLayout();
             this.yearLevelTablePanel.SuspendLayout();
@@ -184,7 +185,8 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadFileToolStripMenuItem,
-            this.saveAsFileToolStripMenuItem});
+            this.saveAsFileToolStripMenuItem,
+            this.saveAsPNGautofillToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
@@ -192,14 +194,14 @@
             // loadFileToolStripMenuItem
             // 
             this.loadFileToolStripMenuItem.Name = "loadFileToolStripMenuItem";
-            this.loadFileToolStripMenuItem.Size = new System.Drawing.Size(170, 26);
+            this.loadFileToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
             this.loadFileToolStripMenuItem.Text = "Load File";
             this.loadFileToolStripMenuItem.Click += new System.EventHandler(this.loadFileToolStripMenuItem_Click);
             // 
             // saveAsFileToolStripMenuItem
             // 
             this.saveAsFileToolStripMenuItem.Name = "saveAsFileToolStripMenuItem";
-            this.saveAsFileToolStripMenuItem.Size = new System.Drawing.Size(170, 26);
+            this.saveAsFileToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
             this.saveAsFileToolStripMenuItem.Text = "Save As File";
             this.saveAsFileToolStripMenuItem.Click += new System.EventHandler(this.saveAsFileToolStripMenuItem_Click);
             // 
@@ -1132,21 +1134,21 @@
             // 
             // summaryChart
             // 
-            chartArea11.Name = "ChartArea1";
-            this.summaryChart.ChartAreas.Add(chartArea11);
+            chartArea1.Name = "ChartArea1";
+            this.summaryChart.ChartAreas.Add(chartArea1);
             this.summaryChart.Location = new System.Drawing.Point(3, 432);
             this.summaryChart.Name = "summaryChart";
-            series11.ChartArea = "ChartArea1";
-            series11.IsValueShownAsLabel = true;
-            series11.LegendText = "Schools";
-            series11.Name = "Schools";
-            this.summaryChart.Series.Add(series11);
+            series1.ChartArea = "ChartArea1";
+            series1.IsValueShownAsLabel = true;
+            series1.LegendText = "Schools";
+            series1.Name = "Schools";
+            this.summaryChart.Series.Add(series1);
             this.summaryChart.Size = new System.Drawing.Size(929, 300);
             this.summaryChart.TabIndex = 1;
             this.summaryChart.Text = "Summary";
-            title11.Name = "Title1";
-            title11.Text = "Score Chart";
-            this.summaryChart.Titles.Add(title11);
+            title1.Name = "Title1";
+            title1.Text = "Score Chart";
+            this.summaryChart.Titles.Add(title1);
             // 
             // chartTypeComboBox
             // 
@@ -1603,6 +1605,13 @@
             this.preferencesY56.UseVisualStyleBackColor = true;
             this.preferencesY56.CheckedChanged += new System.EventHandler(this.settingYearLevel_CheckedChanged);
             // 
+            // saveAsPNGautofillToolStripMenuItem
+            // 
+            this.saveAsPNGautofillToolStripMenuItem.Name = "saveAsPNGautofillToolStripMenuItem";
+            this.saveAsPNGautofillToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
+            this.saveAsPNGautofillToolStripMenuItem.Text = "Save As PNG (auto-fill)";
+            this.saveAsPNGautofillToolStripMenuItem.Click += new System.EventHandler(this.saveAsPNGautofillToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1787,6 +1796,7 @@
         private System.Windows.Forms.RadioButton preferencesY78;
         private System.Windows.Forms.RadioButton preferencesY56;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem saveAsPNGautofillToolStripMenuItem;
     }
 }
 
