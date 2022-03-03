@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsPNGautofillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewRoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,8 +111,6 @@
             this.summaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.summaryPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.homeButton = new System.Windows.Forms.Button();
-            this.summaryTitleLabel = new System.Windows.Forms.Label();
-            this.summaryLabel = new System.Windows.Forms.Label();
             this.summaryChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartTypeComboBox = new System.Windows.Forms.ComboBox();
             this.creditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,7 +147,7 @@
             this.preferencesY34 = new System.Windows.Forms.RadioButton();
             this.preferencesY78 = new System.Windows.Forms.RadioButton();
             this.preferencesY56 = new System.Windows.Forms.RadioButton();
-            this.saveAsPNGautofillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.summaryPictureBox = new System.Windows.Forms.PictureBox();
             this.homePanel.SuspendLayout();
             this.yearLevelPanel.SuspendLayout();
             this.yearLevelTablePanel.SuspendLayout();
@@ -179,6 +178,7 @@
             this.preferencesGenderTablePanel.SuspendLayout();
             this.panel9.SuspendLayout();
             this.preferencesYearLevelTablePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // fileToolStripMenuItem
@@ -188,7 +188,7 @@
             this.saveAsFileToolStripMenuItem,
             this.saveAsPNGautofillToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // loadFileToolStripMenuItem
@@ -205,13 +205,20 @@
             this.saveAsFileToolStripMenuItem.Text = "Save As File";
             this.saveAsFileToolStripMenuItem.Click += new System.EventHandler(this.saveAsFileToolStripMenuItem_Click);
             // 
+            // saveAsPNGautofillToolStripMenuItem
+            // 
+            this.saveAsPNGautofillToolStripMenuItem.Name = "saveAsPNGautofillToolStripMenuItem";
+            this.saveAsPNGautofillToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
+            this.saveAsPNGautofillToolStripMenuItem.Text = "Save As PNG (auto-fill)";
+            this.saveAsPNGautofillToolStripMenuItem.Click += new System.EventHandler(this.saveAsPNGautofillToolStripMenuItem_Click);
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNewRoundToolStripMenuItem,
             this.preferencesToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // addNewRoundToolStripMenuItem
@@ -233,7 +240,7 @@
             this.tabsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.homeToolStripMenuItem});
             this.tabsToolStripMenuItem.Name = "tabsToolStripMenuItem";
-            this.tabsToolStripMenuItem.Size = new System.Drawing.Size(52, 24);
+            this.tabsToolStripMenuItem.Size = new System.Drawing.Size(52, 26);
             this.tabsToolStripMenuItem.Text = "Tabs";
             // 
             // homeToolStripMenuItem
@@ -255,9 +262,9 @@
             this.homePanel.Controls.Add(this.label2);
             this.homePanel.Controls.Add(this.label1);
             this.homePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.homePanel.Location = new System.Drawing.Point(0, 28);
+            this.homePanel.Location = new System.Drawing.Point(0, 30);
             this.homePanel.Name = "homePanel";
-            this.homePanel.Size = new System.Drawing.Size(1017, 487);
+            this.homePanel.Size = new System.Drawing.Size(1017, 485);
             this.homePanel.TabIndex = 1;
             // 
             // homeNewRound
@@ -500,9 +507,9 @@
             this.mainPanel.Controls.Add(this.splitContainer1);
             this.mainPanel.Controls.Add(this.roundLabel);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(0, 28);
+            this.mainPanel.Location = new System.Drawing.Point(0, 30);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1017, 487);
+            this.mainPanel.Size = new System.Drawing.Size(1017, 485);
             this.mainPanel.TabIndex = 2;
             // 
             // tableLayoutPanel7
@@ -561,7 +568,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel5);
             this.splitContainer1.Panel2.Controls.Add(this.label8);
-            this.splitContainer1.Size = new System.Drawing.Size(1017, 437);
+            this.splitContainer1.Size = new System.Drawing.Size(1017, 435);
             this.splitContainer1.SplitterDistance = 344;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -577,9 +584,9 @@
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 437F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 437F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(344, 437);
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 435F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 435F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(344, 435);
             this.tableLayoutPanel6.TabIndex = 1;
             // 
             // panel2
@@ -593,7 +600,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(166, 431);
+            this.panel2.Size = new System.Drawing.Size(166, 429);
             this.panel2.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -610,7 +617,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(161, 305);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(161, 303);
             this.tableLayoutPanel3.TabIndex = 2;
             // 
             // homeGsScoreButton
@@ -619,7 +626,7 @@
             this.homeGsScoreButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.homeGsScoreButton.Location = new System.Drawing.Point(3, 3);
             this.homeGsScoreButton.Name = "homeGsScoreButton";
-            this.homeGsScoreButton.Size = new System.Drawing.Size(155, 146);
+            this.homeGsScoreButton.Size = new System.Drawing.Size(155, 145);
             this.homeGsScoreButton.TabIndex = 0;
             this.homeGsScoreButton.Text = "Home\r\nGS\r\nScored";
             this.homeGsScoreButton.UseVisualStyleBackColor = true;
@@ -629,9 +636,9 @@
             // 
             this.homeGaScoreButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.homeGaScoreButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.homeGaScoreButton.Location = new System.Drawing.Point(3, 155);
+            this.homeGaScoreButton.Location = new System.Drawing.Point(3, 154);
             this.homeGaScoreButton.Name = "homeGaScoreButton";
-            this.homeGaScoreButton.Size = new System.Drawing.Size(155, 147);
+            this.homeGaScoreButton.Size = new System.Drawing.Size(155, 146);
             this.homeGaScoreButton.TabIndex = 0;
             this.homeGaScoreButton.Text = "Home\r\nGA\r\nScored";
             this.homeGaScoreButton.UseVisualStyleBackColor = true;
@@ -700,7 +707,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(175, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(166, 431);
+            this.panel3.Size = new System.Drawing.Size(166, 429);
             this.panel3.TabIndex = 0;
             // 
             // tableLayoutPanel4
@@ -717,7 +724,7 @@
             this.tableLayoutPanel4.RowCount = 2;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(160, 305);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(160, 303);
             this.tableLayoutPanel4.TabIndex = 2;
             // 
             // visiGsScoreButton
@@ -726,7 +733,7 @@
             this.visiGsScoreButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.visiGsScoreButton.Location = new System.Drawing.Point(3, 3);
             this.visiGsScoreButton.Name = "visiGsScoreButton";
-            this.visiGsScoreButton.Size = new System.Drawing.Size(154, 146);
+            this.visiGsScoreButton.Size = new System.Drawing.Size(154, 145);
             this.visiGsScoreButton.TabIndex = 0;
             this.visiGsScoreButton.Text = "Visitors\r\nGS\r\nScored";
             this.visiGsScoreButton.UseVisualStyleBackColor = true;
@@ -736,9 +743,9 @@
             // 
             this.visiGaScoreButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.visiGaScoreButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visiGaScoreButton.Location = new System.Drawing.Point(3, 155);
+            this.visiGaScoreButton.Location = new System.Drawing.Point(3, 154);
             this.visiGaScoreButton.Name = "visiGaScoreButton";
-            this.visiGaScoreButton.Size = new System.Drawing.Size(154, 147);
+            this.visiGaScoreButton.Size = new System.Drawing.Size(154, 146);
             this.visiGaScoreButton.TabIndex = 0;
             this.visiGaScoreButton.Text = "Visitors\r\nGA\r\nScored";
             this.visiGaScoreButton.UseVisualStyleBackColor = true;
@@ -1083,7 +1090,7 @@
             // summaryToolStripMenuItem
             // 
             this.summaryToolStripMenuItem.Name = "summaryToolStripMenuItem";
-            this.summaryToolStripMenuItem.Size = new System.Drawing.Size(85, 24);
+            this.summaryToolStripMenuItem.Size = new System.Drawing.Size(85, 26);
             this.summaryToolStripMenuItem.Text = "Summary";
             this.summaryToolStripMenuItem.Click += new System.EventHandler(this.summaryToolStripMenuItem_Click);
             // 
@@ -1091,14 +1098,13 @@
             // 
             this.summaryPanel.AutoScroll = true;
             this.summaryPanel.Controls.Add(this.homeButton);
-            this.summaryPanel.Controls.Add(this.summaryTitleLabel);
-            this.summaryPanel.Controls.Add(this.summaryLabel);
+            this.summaryPanel.Controls.Add(this.summaryPictureBox);
             this.summaryPanel.Controls.Add(this.summaryChart);
             this.summaryPanel.Controls.Add(this.chartTypeComboBox);
             this.summaryPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.summaryPanel.Location = new System.Drawing.Point(0, 28);
+            this.summaryPanel.Location = new System.Drawing.Point(0, 0);
             this.summaryPanel.Name = "summaryPanel";
-            this.summaryPanel.Size = new System.Drawing.Size(1017, 487);
+            this.summaryPanel.Size = new System.Drawing.Size(1017, 515);
             this.summaryPanel.TabIndex = 3;
             // 
             // homeButton
@@ -1106,37 +1112,17 @@
             this.homeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.homeButton.Location = new System.Drawing.Point(3, 3);
             this.homeButton.Name = "homeButton";
-            this.homeButton.Size = new System.Drawing.Size(230, 42);
+            this.homeButton.Size = new System.Drawing.Size(973, 42);
             this.homeButton.TabIndex = 3;
             this.homeButton.Text = "Home";
             this.homeButton.UseVisualStyleBackColor = true;
             this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
             // 
-            // summaryTitleLabel
-            // 
-            this.summaryTitleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.summaryTitleLabel.Location = new System.Drawing.Point(3, 48);
-            this.summaryTitleLabel.Name = "summaryTitleLabel";
-            this.summaryTitleLabel.Size = new System.Drawing.Size(957, 39);
-            this.summaryTitleLabel.TabIndex = 0;
-            this.summaryTitleLabel.Text = "Home    VS    Visitors";
-            this.summaryTitleLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // summaryLabel
-            // 
-            this.summaryLabel.AutoSize = true;
-            this.summaryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.summaryLabel.Location = new System.Drawing.Point(3, 87);
-            this.summaryLabel.Name = "summaryLabel";
-            this.summaryLabel.Size = new System.Drawing.Size(1005, 342);
-            this.summaryLabel.TabIndex = 0;
-            this.summaryLabel.Text = resources.GetString("summaryLabel.Text");
-            // 
             // summaryChart
             // 
             chartArea1.Name = "ChartArea1";
             this.summaryChart.ChartAreas.Add(chartArea1);
-            this.summaryChart.Location = new System.Drawing.Point(3, 432);
+            this.summaryChart.Location = new System.Drawing.Point(3, 509);
             this.summaryChart.Name = "summaryChart";
             series1.ChartArea = "ChartArea1";
             series1.IsValueShownAsLabel = true;
@@ -1172,7 +1158,7 @@
             "Kagi",
             "Funnel",
             "Pyramid"});
-            this.chartTypeComboBox.Location = new System.Drawing.Point(3, 738);
+            this.chartTypeComboBox.Location = new System.Drawing.Point(3, 815);
             this.chartTypeComboBox.Name = "chartTypeComboBox";
             this.chartTypeComboBox.Size = new System.Drawing.Size(929, 39);
             this.chartTypeComboBox.TabIndex = 2;
@@ -1181,7 +1167,7 @@
             // creditToolStripMenuItem
             // 
             this.creditToolStripMenuItem.Name = "creditToolStripMenuItem";
-            this.creditToolStripMenuItem.Size = new System.Drawing.Size(63, 24);
+            this.creditToolStripMenuItem.Size = new System.Drawing.Size(63, 26);
             this.creditToolStripMenuItem.Text = "Credit";
             this.creditToolStripMenuItem.Click += new System.EventHandler(this.creditToolStripMenuItem_Click);
             // 
@@ -1196,7 +1182,7 @@
             this.creditToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1017, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1017, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1209,9 +1195,9 @@
             this.preferencesPanel.Controls.Add(this.panel8);
             this.preferencesPanel.Controls.Add(this.panel9);
             this.preferencesPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.preferencesPanel.Location = new System.Drawing.Point(0, 28);
+            this.preferencesPanel.Location = new System.Drawing.Point(0, 30);
             this.preferencesPanel.Name = "preferencesPanel";
-            this.preferencesPanel.Size = new System.Drawing.Size(1017, 487);
+            this.preferencesPanel.Size = new System.Drawing.Size(1017, 485);
             this.preferencesPanel.TabIndex = 4;
             // 
             // panel1
@@ -1605,12 +1591,13 @@
             this.preferencesY56.UseVisualStyleBackColor = true;
             this.preferencesY56.CheckedChanged += new System.EventHandler(this.settingYearLevel_CheckedChanged);
             // 
-            // saveAsPNGautofillToolStripMenuItem
+            // summaryPictureBox
             // 
-            this.saveAsPNGautofillToolStripMenuItem.Name = "saveAsPNGautofillToolStripMenuItem";
-            this.saveAsPNGautofillToolStripMenuItem.Size = new System.Drawing.Size(243, 26);
-            this.saveAsPNGautofillToolStripMenuItem.Text = "Save As PNG (auto-fill)";
-            this.saveAsPNGautofillToolStripMenuItem.Click += new System.EventHandler(this.saveAsPNGautofillToolStripMenuItem_Click);
+            this.summaryPictureBox.Location = new System.Drawing.Point(3, 51);
+            this.summaryPictureBox.Name = "summaryPictureBox";
+            this.summaryPictureBox.Size = new System.Drawing.Size(973, 452);
+            this.summaryPictureBox.TabIndex = 4;
+            this.summaryPictureBox.TabStop = false;
             // 
             // Form1
             // 
@@ -1619,9 +1606,9 @@
             this.ClientSize = new System.Drawing.Size(1017, 515);
             this.Controls.Add(this.homePanel);
             this.Controls.Add(this.mainPanel);
-            this.Controls.Add(this.summaryPanel);
             this.Controls.Add(this.preferencesPanel);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.summaryPanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(1028, 562);
@@ -1657,7 +1644,6 @@
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.summaryPanel.ResumeLayout(false);
-            this.summaryPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.summaryChart)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -1674,6 +1660,7 @@
             this.panel9.ResumeLayout(false);
             this.preferencesYearLevelTablePanel.ResumeLayout(false);
             this.preferencesYearLevelTablePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1756,9 +1743,7 @@
         private System.Windows.Forms.Button homeNewRound;
         private System.Windows.Forms.ToolStripMenuItem summaryToolStripMenuItem;
         private System.Windows.Forms.FlowLayoutPanel summaryPanel;
-        private System.Windows.Forms.Label summaryTitleLabel;
         private System.Windows.Forms.DataVisualization.Charting.Chart summaryChart;
-        private System.Windows.Forms.Label summaryLabel;
         private System.Windows.Forms.ComboBox chartTypeComboBox;
         private System.Windows.Forms.ToolStripMenuItem creditToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -1797,6 +1782,7 @@
         private System.Windows.Forms.RadioButton preferencesY56;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem saveAsPNGautofillToolStripMenuItem;
+        private System.Windows.Forms.PictureBox summaryPictureBox;
     }
 }
 

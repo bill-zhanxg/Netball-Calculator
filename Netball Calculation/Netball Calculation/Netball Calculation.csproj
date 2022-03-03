@@ -109,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Netball.ico" />
+    <None Include="Resources\summary3.png" />
+    <None Include="Resources\summary2.png" />
+    <None Include="Resources\summary1.png" />
     <None Include="Resources\sheet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

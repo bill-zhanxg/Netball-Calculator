@@ -117,16 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="summaryLabel.Text" xml:space="preserve">
-    <value>Summary Texts
-Round 1:
-Home GA Scored: 0             Home GS Scored: 0             Home Total Scored: 0
-Visitors GA Scored: 0             Visitors GS Scored: 0             Visitors Total Scored: 0
-
-Home Total Scored: 0
-Visitors Total Scored: 0
-</value>
-  </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

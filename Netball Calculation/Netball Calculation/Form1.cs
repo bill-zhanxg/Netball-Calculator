@@ -657,24 +657,45 @@ namespace Netball_Calculation
 
         private void showSummary()
         {
+            Image mainPicture = new Bitmap(929, 1);
+
+            void addImage(Image image)
+            {
+                int oldHeight = mainPicture.Height;
+                int width = 929;
+                int height = image.Height + oldHeight;
+
+                var destImage = new Bitmap(width, height);
+
+                Graphics graphic = Graphics.FromImage(destImage);
+                graphic.DrawImage(mainPicture, 0, 0);
+                graphic.DrawImage(image, 0, oldHeight);
+
+                mainPicture = destImage;
+            }
+            void DrawString(Graphics drawStringGraphics, string text, int x, int y, bool isBlack = false, int size = 30)
+            {
+                if (isBlack == false)
+                {
+                    drawStringGraphics.DrawString(text, new Font("Arial", size), Brushes.Red, x, y);
+                }
+                else
+                {
+                    drawStringGraphics.DrawString(text, new Font("Arial", size), Brushes.Black, x, y);
+                }
+            }
+
+            Image title = (Image)Resources.ResourceManager.GetObject("summary1");
+            Graphics titleG = Graphics.FromImage(title);
             homeData homeData = getHomeData();
+            DrawString(titleG, homeData.homeSchool, 115, 15);
+            DrawString(titleG, homeData.visitorSchool, 570, 15);
+            DrawString(titleG, homeData.genderText, 140, 70);
+            DrawString(titleG, homeData.yearLevelText, 180, 120);
+            addImage(title);
+
             int homeTotalScore = 0;
             int visitorTotalScore = 0;
-            string summaryTitleText = "";
-            if (string.IsNullOrWhiteSpace(homeData.homeSchool))
-            {
-                summaryTitleText += "Home School    VS    Visitors School";
-            }
-            else
-            {
-                summaryTitleText += $"Home School ({homeData.homeSchool})    VS    Visitors School";
-            }
-            if (!string.IsNullOrWhiteSpace(homeData.visitorSchool))
-            {
-                summaryTitleText += $" ({homeData.visitorSchool})";
-            }
-            summaryTitleLabel.Text = summaryTitleText;
-            string labelText = $"Gender: \"{homeData.genderText}\"\nYear Level: \"{homeData.yearLevelText}\"\n\n";
 
             List<playerData> playerDataList = new List<playerData>();
 
@@ -703,26 +724,62 @@ namespace Netball_Calculation
 
                 homeTotalScore += data.homeGSScore + data.homeGAScore;
                 visitorTotalScore += data.visiGSScore + data.visiGAScore;
-                labelText += $"Round {data.roundNum}:\nHome GS Name: " + (string.IsNullOrWhiteSpace(data.homeGS) ? "\"NoNameSpecified\"" : $"\"{data.homeGS}\"") + "    Home GA Name: " + (string.IsNullOrWhiteSpace(data.homeGA) ? "\"NoNameSpecified\"" : $"\"{data.homeGA}\"") + "\nVisitors GS Name: " + (string.IsNullOrWhiteSpace(data.visiGS) ? "\"NoNameSpecified\"" : $"\"{data.visiGS}\"") + "    Visitors GA Name: " + (string.IsNullOrWhiteSpace(data.visiGA) ? "\"NoNameSpecified\"\n" : $"\"{data.visiGA}\"\n");
-                labelText += $"Home GS Scored: *{data.homeGSScore}*    Home GA Scored: *{data.homeGAScore}*    Home Total Scored (Round): *{data.homeGSScore + data.homeGAScore}*\nVisitors GS Scored: *{data.visiGSScore}*    Visitors GA Scored: *{data.visiGAScore}*    Visitors Total Scored (Round): *{data.visiGSScore + data.visiGAScore}*\n\n";
+
+                Image playerI = (Image)Resources.ResourceManager.GetObject("summary2");
+                Graphics playerG = Graphics.FromImage(playerI);
+                DrawString(playerG, data.roundNum.ToString(), 120, 80);
+                DrawString(playerG, data.homeGS, 280, 112);
+                DrawString(playerG, data.homeGA, 280, 153);
+                DrawString(playerG, data.visiGS, 305, 195);
+                DrawString(playerG, data.visiGA, 305, 240);
+                DrawString(playerG, data.homeGSScore.ToString(), 160, 116);
+                DrawString(playerG, data.homeGAScore.ToString(), 160, 157);
+                DrawString(playerG, data.visiGSScore.ToString(), 180, 199);
+                DrawString(playerG, data.visiGAScore.ToString(), 180, 244);
+                DrawString(playerG, (data.homeGSScore + data.homeGAScore).ToString(), 830, 157);
+                DrawString(playerG, (data.visiGSScore + data.visiGAScore).ToString(), 830, 244);
+                addImage(playerI);
             }
-            labelText += $"Home School Total Score: *{homeTotalScore}*\nVisitor School Total Score: *{visitorTotalScore}*\n\n";
+
+            Image blank = (Image)Resources.ResourceManager.GetObject("summary3");
+            addImage(blank);
+
+            Image school = new Bitmap(blank);
+            Graphics schoolG = Graphics.FromImage(school);
+            DrawString(schoolG, "Home School Total Scored:", 10, 10, true);
+            DrawString(schoolG, homeTotalScore.ToString(), 500, 10);
+            addImage(school);
+
+            Image school2 = new Bitmap(blank);
+            Graphics school2G = Graphics.FromImage(school2);
+            DrawString(school2G, "Visitor School Total Scored:", 10, 10, true);
+            DrawString(school2G, visitorTotalScore.ToString(), 503, 10);
+            addImage(school2);
 
             if (playerDataList.Count > 0)
             {
-                labelText += "LeaderBoard:\n";
+                addImage(blank);
+
+                Image newBlank = new Bitmap(blank);
+                Graphics blankG = Graphics.FromImage(newBlank);
+                DrawString(blankG, "LeaderBoard:", 10, 10, true);
+                addImage(newBlank);
+
+                var sortedPlayerDataList = playerDataList.OrderByDescending(x => x.playerScore);
+                int count = 1;
+                foreach (playerData player in sortedPlayerDataList)
+                {
+                    Image leaderBoard = new Bitmap(blank);
+                    Graphics leaderBoardG = Graphics.FromImage(leaderBoard);
+                    DrawString(leaderBoardG, $"{count}. {player.playerName} - {player.playerScore}", 10, 2);
+                    addImage(leaderBoard);
+                    count++;
+                }
             }
 
-            var sortedPlayerDataList = playerDataList.OrderByDescending(x => x.playerScore);
-            int count = 1;
-            foreach (playerData player in sortedPlayerDataList)
-            {
-                labelText += $"{count}. {player.playerName} - {player.playerScore}\n";
-                count++;
-            }
-            labelText += "\n";
-
-            summaryLabel.Text = labelText;
+            homeButton.Width = mainPicture.Width;
+            summaryPictureBox.Size = mainPicture.Size;
+            summaryPictureBox.Image = mainPicture;
 
             summaryChart.Series["Schools"].Points.Clear();
             summaryChart.Series["Schools"].Points.AddXY($"Home ({homeData.homeSchool})", homeTotalScore);
